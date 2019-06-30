@@ -3,6 +3,26 @@ import http from "http";
 import io from "socket.io";
 
 const app = express();
+const port = 8080;
+
+// ROUTES
+import { homeRoute } from "./routes/home.route";
+import { usersRoute } from "./routes/users.route";
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    next();
+});
+
+// ROUTES DEFINITION
+app.use("/", homeRoute);
+app.use("/users", usersRoute);
+
 const server = http.createServer(app);
 const ServerIo = io(server);
 
@@ -19,12 +39,6 @@ ServerIo.on("connection", (socket) => {
 
 });
 
-// ROUTES
-import { usersRoute } from "./routes/users.route";
-
-// ROUTES DEFINITION
-app.use("/users", usersRoute);
-
-server.listen(80, () => {
-console.log("listening on *:80");
+server.listen(8080, () => {
+    console.log(`listening on port${port}`);
 });

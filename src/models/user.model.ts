@@ -1,30 +1,9 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-interface IUser {
-  email: string;
-  name: string;
-  lastName: string;
-  address: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  dateBirth: string;
-  genre: string;
-  password: string;
-  created: string;
-  status: string;
-  img: string;
-}
+// INTERFACES
+import { IUser, IUserModel } from "../interfaces/user.interface";
 
-interface IUserModel extends IUser {
-  createUser: object;
-  userInfo: object;
-  getUsers: object;
-  saveCurrentLocation: object;
-  usersByDisplayer: object;
-}
-
-export const userSchema = new Schema<IUserModel>({
+const userSchema = new Schema<IUserModel>({
   email: { type: String, required: true, unique: true, index: true },
   name: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -40,9 +19,7 @@ export const userSchema = new Schema<IUserModel>({
   img: { type: String }
 });
 
-export const UserMethods = userSchema.methods;
-
-const User: Model<Document> = mongoose.model("User", userSchema);
+export const User: Model<IUserModel> = mongoose.model<IUserModel>("User", userSchema);
 
 // CREATE USER
 userSchema.methods.getUsers = () => {
