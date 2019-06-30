@@ -12,15 +12,23 @@ usersRoute.get("/", (req, res, next) => {
         lng: 0
     }]);
 
+    /*
+    // RETURN USERS
+    User.schema.methods.getUsers().then(users => {
+       res.status(200).json(users); 
+    });
+    */
+                
 });
 
 // SAVE USER LOCATION
 usersRoute.post("/location", (req, res, next) => {
-
+    /*
+    // SAVE CURRENT LOCATION
     User.schema.methods.saveCurrentLocation(req.body.user).then(() => {
         console.log("h");
     });
-
+    */
     var SocketIo = req.app.get('ServerIo').of('/');
     SocketIo.in('app').emit('user-location', { _id: req.params._id, lng: req.params.lng, lat: req.params.lat });
 
