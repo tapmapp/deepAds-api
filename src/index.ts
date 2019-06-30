@@ -26,6 +26,8 @@ app.use("/users", usersRoute);
 const server = http.createServer(app);
 const ServerIo = io(server);
 
+app.set('ServerIo', ServerIo);
+
 // SOCKET
 ServerIo.on("connection", (socket) => {
 

@@ -4,7 +4,8 @@ import mongoose, { Model, Schema } from "mongoose";
 import { IUser, IUserModel } from "../interfaces/user.interface";
 
 const userSchema = new Schema<IUserModel>({
-  email: { type: String, required: true, unique: true, index: true },
+  _id: { type: String, required: true, unique: true, index: true },
+  email: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   lastName: { type: String, required: true },
   address: { type: String, required: false },
@@ -55,4 +56,9 @@ userSchema.methods.userInfo = (userId: string) => {
 // GET USERSBY DISPLAYER
 userSchema.methods.usersByDisplayer = (displayerId: string) => {
   return User.find({ _id: displayerId }).exec();
+};
+
+// SAVE USER CURRENT LOCATION
+userSchema.methods.saveUserCurrentLocation = (user: IUser) => {
+  return User.find({_id: user._ids})
 };

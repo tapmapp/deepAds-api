@@ -22,4 +22,5 @@ export interface IUserModel extends Document {
     createUser: any;
     userInfo: any;
     usersByDisplayer: any;
+    saveUserCurrentLocation: any;
 }

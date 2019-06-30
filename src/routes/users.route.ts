@@ -1,9 +1,6 @@
 import express from "express";
 import { User } from "../models/user.model";
 
-// INTERFACES
-import { IUser } from "../interfaces/user.interface";
-
 export const usersRoute = express.Router();
 
 // GET USERS
@@ -14,16 +11,17 @@ usersRoute.get("/", (req, res, next) => {
         lat: 0,
         lng: 0
     }]);
-    /*
-    User.schema.methods.getUsers().then((users: IUser[]) => {
-        res.status(200).json(users);
-    });
-    */
+
 });
 
-// GET USERS
+// SAVE USER LOCATION
 usersRoute.post("/location", (req, res, next) => {
-    User.schema.methods.saveCurrentLocation().then(() => {
+
+    User.schema.methods.saveCurrentLocation(req.body.user).then(() => {
         console.log("h");
     });
+
+    var SocketIo = req.app.get('ServerIo').of('/');
+    SocketIo.in('app').emit('user-location', { _id: req.params._id, lng: req.params.lng, lat: req.params.lat });
+
 });
