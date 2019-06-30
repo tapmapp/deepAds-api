@@ -60,5 +60,5 @@ userSchema.methods.usersByDisplayer = (displayerId: string) => {
 
 // SAVE USER CURRENT LOCATION
 userSchema.methods.saveUserCurrentLocation = (user: IUser) => {
-  return User.find({_id: user._ids})
+  return User.find({_id: user._id })
 };
