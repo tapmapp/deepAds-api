@@ -1,3 +1,4 @@
+import * as bodyParser from "body-parser";
 import express from "express";
 import http from "http";
 import io from "socket.io";
@@ -9,6 +10,7 @@ const port = 8080;
 import { homeRoute } from "./routes/home.route";
 import { usersRoute } from "./routes/users.route";
 
+app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
@@ -26,7 +28,7 @@ app.use("/users", usersRoute);
 const server = http.createServer(app);
 const ServerIo = io(server);
 
-app.set('ServerIo', ServerIo);
+app.set("ServerIo", ServerIo);
 
 // SOCKET
 ServerIo.on("connection", (socket) => {

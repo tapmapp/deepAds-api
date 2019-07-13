@@ -6,30 +6,44 @@ export const usersRoute = express.Router();
 // GET USERS
 usersRoute.get("/", (req, res, next) => {
 
-    res.status(200).json([{
-        _id: "afajk3jk2j3k5235253afs",
-        lat: 0,
-        lng: 0
-    }]);
-
-    /*
     // RETURN USERS
-    User.schema.methods.getUsers().then(users => {
-       res.status(200).json(users); 
-    });
-    */
-                
+    res.status(200).json([]);
+
 });
 
 // SAVE USER LOCATION
 usersRoute.post("/location", (req, res, next) => {
+
+    console.log(req.body);
+
+    // SEND USER LOCATION
+    const SocketIo = req.app.get("ServerIo").of("/");
+    SocketIo.emit("user-location", { _id: req.body._id, lng: req.body.lng, lat: req.body.lat });
+
+    // SUCCESS RESPONSE
+    res.status(200).json({
+        message: `${req.body._id} location saved!`
+    });
+
     /*
-    // SAVE CURRENT LOCATION
+    // SAVE USER CURRENT LOCATION
     User.schema.methods.saveCurrentLocation(req.body.user).then(() => {
-        console.log("h");
+
+        // SEND USER LOCATION
+        const SocketIo = req.app.get("ServerIo").of("/");
+        SocketIo.in("app").emit("user-location", { _id: req.body._id, lng: req.body.lng, lat: req.body.lat });
+
+        // SUCCESS RESPONSE
+        res.status(200).json({
+            message: `${req.body._id} location saved!`
+        });
+
+    }).catch((err: any) => {
+
+        // ERROR RESPONSE
+        res.status(400).json({
+            err
+        });
     });
     */
-    var SocketIo = req.app.get('ServerIo').of('/');
-    SocketIo.in('app').emit('user-location', { _id: req.params._id, lng: req.params.lng, lat: req.params.lat });
-
 });

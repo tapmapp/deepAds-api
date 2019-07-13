@@ -49,16 +49,16 @@ userSchema.methods.createUser = (user: IUser) => {
 };
 
 // USER INFO
-userSchema.methods.userInfo = (userId: string) => {
+userSchema.methods.userInfo = (userId: string): Promise<IUserModel> => {
   return User.findOne({ _id: userId }).exec();
 };
 
 // GET USERSBY DISPLAYER
-userSchema.methods.usersByDisplayer = (displayerId: string) => {
+userSchema.methods.usersByDisplayer = (displayerId: string): Promise<IUserModel[]> => {
   return User.find({ _id: displayerId }).exec();
 };
 
 // SAVE USER CURRENT LOCATION
-userSchema.methods.saveUserCurrentLocation = (user: IUser) => {
-  return User.find({_id: user._id })
+userSchema.methods.saveUserCurrentLocation = (user: IUser): Promise<IUserModel[]> => {
+  return null;
 };
